@@ -6,7 +6,7 @@ import com.cyrivlclth.rewardpoint.interfaces.account.facade.dto.AccountDTO
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/rest/admin")
 class AccountAdminController(
     private val accountServiceFacade: AccountServiceFacade
 ) {
@@ -15,7 +15,7 @@ class AccountAdminController(
         return accountServiceFacade.findById(id)
     }
 
-    @PutMapping("/point-account/{id}")
+    @PostMapping("/point-account/{id}/points")
     fun updatePointAccount(@PathVariable id: Int, @RequestBody updateRequest: UpdateRequest): AccountDTO {
         return accountServiceFacade.addPoint(id, updateRequest.toPointVO())
     }
