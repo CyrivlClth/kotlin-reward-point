@@ -19,6 +19,6 @@ class AccountServiceFacade(
     }
 
     fun Account.toDTO() = AccountDTO(
-        id ?: 0, amount,
+        id, amount,
     )
 }

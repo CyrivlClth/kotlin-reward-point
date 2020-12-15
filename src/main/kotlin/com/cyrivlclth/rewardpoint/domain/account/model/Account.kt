@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 
 class Account(
-    val id: Int? = null,
+    val id: Int,
     amount: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
