@@ -16,7 +16,7 @@ class AccountService(
 
     @Transactional
     fun addPoint(id: Int, pointVO: PointVO): Account {
-        val account = accountRepository.findAndLockById(id) ?: Account()
+        val account = accountRepository.findAndLockById(id) ?: Account(id = id)
         account.addPoint(pointVO)
         return accountRepository.save(account)
     }
