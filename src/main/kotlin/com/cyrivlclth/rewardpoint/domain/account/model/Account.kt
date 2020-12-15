@@ -8,6 +8,7 @@ class Account(
     amount: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
+    val points: MutableList<PointVO> = mutableListOf(),
 ) {
     var amount = amount
         set(value) {
@@ -17,6 +18,7 @@ class Account(
         }
 
     fun addPoint(pointVO: PointVO) {
+        points.add(pointVO)
         amount += pointVO.amount
     }
 }

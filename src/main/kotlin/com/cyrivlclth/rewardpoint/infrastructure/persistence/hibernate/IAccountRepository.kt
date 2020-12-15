@@ -4,10 +4,13 @@ import com.cyrivlclth.rewardpoint.domain.account.model.Account
 import com.cyrivlclth.rewardpoint.domain.account.model.AccountRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
+import kotlin.math.absoluteValue
 
 @Repository
 class IAccountRepository(
     val accountRepositoryHibernate: AccountRepositoryHibernate,
+    val accountLogRepositoryHibernate: AccountLogRepositoryHibernate,
 ) : AccountRepository {
     override fun findAndLockById(id: Int): Account? {
         return accountRepositoryHibernate.findAndLockById(id)?.toEntity()
@@ -17,8 +20,19 @@ class IAccountRepository(
         return accountRepositoryHibernate.findByIdOrNull(id)?.toEntity()
     }
 
+    @Transactional
     override fun save(account: Account): Account {
-        return accountRepositoryHibernate.save(account.toPO()).toEntity()
+        val po = accountRepositoryHibernate.save(account.toPO())
+        accountLogRepositoryHibernate.saveAll(account.points.map {
+            AccountLogPO(
+                orderNo = it.identity,
+                account = po,
+                type = if (it.amount > 0) 1 else 2,
+                changeAmount = it.amount.absoluteValue,
+                status = 1,
+            )
+        })
+        return po.toEntity()
     }
 
     fun Account.toPO() = AccountPO(

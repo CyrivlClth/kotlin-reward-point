@@ -20,7 +20,7 @@ class AccountAdminController(
         return accountServiceFacade.addPoint(id, updateRequest.toPointVO())
     }
 
-    fun UpdateRequest.toPointVO() = PointVO(amount)
+    fun UpdateRequest.toPointVO() = PointVO(amount, orderNo)
 
-    data class UpdateRequest(val amount: Int)
+    data class UpdateRequest(val amount: Int, val orderNo: String)
 }
